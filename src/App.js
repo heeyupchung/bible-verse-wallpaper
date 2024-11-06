@@ -1,43 +1,35 @@
 import ReactDOM from "react-dom";
 import React, { Fragment, useEffect, useState } from "react";
 import { createApi } from "unsplash-js";
+import "./App.scss";
+import { Button } from "@mui/material";
 
 const api = createApi({
-  // Don't forget to set your access token here!
-  // See https://unsplash.com/developers
   accessKey: "r-Cir8lI-ewNJ9R2E-WArbdxtZgKTy2sMwoxQF-s3Iw"
 });
 
-const PhotoComp = ({ photo }) => {
-  const { user, urls } = photo;
-
-  return (
-    <Fragment>
-      <img className="img" src={urls.regular} />
-      <a
-        className="credit"
-        target="_blank"
-        href={`https://unsplash.com/@${user.username}`}
-      >
-        {user.name}
-      </a>
-    </Fragment>
-  );
-};
-
 const Body = () => {
   const [data, setPhotosResponse] = useState(null);
+  const [randPhoto, setRandPhoto] = useState(null);
+  const [randomize, setRandomize] = useState(true);
 
   useEffect(() => {
-    api.search
+    if(randomize) {
+      api.search
       .getPhotos({ query: "ocean", orientation: "landscape" })
       .then(result => {
+        let random = Math.floor(Math.random() * result.response.results.length);
+        
         setPhotosResponse(result);
+        setRandPhoto(result.response.results[random]);
       })
       .catch(() => {
         console.log("something went wrong!");
       });
-  }, []);
+    }
+
+      setRandomize(false);
+  }, [randomize]);
 
   if (data === null) {
     return <div>Loading...</div>;
@@ -50,14 +42,13 @@ const Body = () => {
     );
   } else {
     return (
-      <div className="feed">
-        <ul className="columnUl">
-          {data.response.results.map(photo => (
-            <li key={photo.id} className="li">
-              <PhotoComp photo={photo} />
-            </li>
-          ))}
-        </ul>
+      <div className="wallpaper-background">
+        <img className="img" src={randPhoto.urls.regular} />
+        <Button variant="contained" onClick={() => {
+          setRandomize(true);
+        }}>
+          New Wallpaper
+        </Button>
       </div>
     );
   }
