@@ -553,6 +553,10 @@ video {
   margin-top: 2rem;
 }
 
+.hidden {
+  display: none;
+}
+
 .bg-\[url\(\$\{randPhoto\.urls\.regular\}\)\] {
   background-image: url(${randPhoto.urls.regular});
 }
@@ -564,6 +568,7 @@ video {
     justify-content: center;
     align-items: center;
     position: relative;
+    flex-direction: column;
     .actions {
       position: fixed;
       bottom: 80px;
@@ -581,6 +586,17 @@ video {
           }
         }
       }
+      .MuiButtonBase-root {
+        height: 48px;
+      }
+    }
+    .bible-verse {
+      max-width: 50%;
+      text-align: center;
+      font-size: 24px;
+      font-family: "sans-serif";
+      color: white;
+      font-weight: 600;
     }
   }
 }

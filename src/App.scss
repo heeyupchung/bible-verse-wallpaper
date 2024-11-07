@@ -9,6 +9,7 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    flex-direction: column;
 
     .actions {
       position: fixed;
@@ -31,6 +32,18 @@
           }
         }
       }
+
+      .MuiButtonBase-root {
+        height: 48px;
+      }
+    }
+
+    .bible-verse {
+      max-width: 50%;
+      text-align: center;
+      font-size: 24px;
+      color: white;
+      font-weight: 600;
     }
   }
 }
