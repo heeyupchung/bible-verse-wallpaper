@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { createApi } from "unsplash-js";
-import { Button } from "@mui/material";
+import { Button, FormControl, TextField } from "@mui/material";
 
 export default function Wallpaper() {
   const [data, setPhotosResponse] = useState(null);
   const [randPhoto, setRandPhoto] = useState(null);
   const [randomize, setRandomize] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const api = createApi({
     accessKey: "r-Cir8lI-ewNJ9R2E-WArbdxtZgKTy2sMwoxQF-s3Iw"
   });
 
+
   useEffect(() => {
     if(randomize) {
       api.search
-      .getPhotos({ query: "ocean", orientation: "landscape" })
+      .getPhotos({ query: !searchQuery ? "ocean" : searchQuery, orientation: "landscape" })
       .then(result => {
         let random = Math.floor(Math.random() * result.response.results.length);
         
@@ -39,15 +41,26 @@ export default function Wallpaper() {
       </div>
     );
   } else {
+    const backgroundClasses = {
+      "backgroundImage": `url(${randPhoto.urls.regular})`, 
+      // "backgroundRepeat": "no-repeat", 
+      // "backgroundSize": "cover", 
+      "backgroundPosition": "center", 
+      "backgroundAttachment": "fixed", 
+      "height": "100vh"
+    }
+
     return (
-      <div className="wallpaper-background">
-        <img className="img" src={randPhoto.urls.regular} />
-        <Button variant="contained" onClick={() => {
-          setRandomize(true);
-        }}>
-          New Wallpaper
-        </Button>
-      </div>
+      <form onSubmit={e => { e.preventDefault(); setRandomize(true);}} className="wallpaper-background"
+        style={backgroundClasses}>
+        {/* <img className="img" src={randPhoto.urls.regular} /> */}
+        <div className="actions">
+          <TextField size="small" label="Search" variant="filled" value={searchQuery} onChange={e => setSearchQuery(e.target.value)}/>
+          <Button variant="contained" type="submit" >
+            New Wallpaper
+          </Button>
+        </div>
+      </form>
     );
   }
 }
