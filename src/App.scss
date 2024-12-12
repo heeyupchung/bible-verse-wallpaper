@@ -2,14 +2,22 @@
   .wallpaper-background {
     width: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     position: relative;
     flex-direction: column;
 
+    .header {
+      .header-actions-container {
+        .header-action {
+
+        }
+      }
+    }
+
     .actions {
-      position: fixed;
-      bottom: 80px;
+      margin-bottom: 80px;
 
       .MuiTextField-root {
         background: white;
@@ -40,6 +48,7 @@
       font-size: 24px;
       color: white;
       font-weight: 600;
+      margin-top: 80px;
     }
   }
 }
